@@ -26,6 +26,7 @@ export const Colors = {
         brightMagenta: "\x1b[95m",
         brightCyan: "\x1b[96m",
         brightWhite: "\x1b[97m",
+        darkpurple: "\x1b[38;5;53m"
     },
     bg: {
         black: "\x1b[40m",
@@ -45,6 +46,7 @@ export const Colors = {
         bluebright: "\x1b[0;104m",
         magentabright: "\x1b[0;105m",
         cyanbright: "\x1b[0;106m",
-        whitebright: "\x1b[0;107m"
+        whitebright: "\x1b[0;107m",
+        purple: "\x1b[48;5;53m",
     }
 };
