@@ -185,7 +185,7 @@ Estrutura organizada para facilitar **manutenção, escalabilidade e leitura té
 **1️⃣ Clone o repositório**
 
 ```bash
-git clone https://github.com/rafaelq80/conta_bancaria_tjs13.git
+git clone https://github.com/Gaalmeida-dev/Conta_Bancaria
 ```
 
 **2️⃣ Acesse a pasta do projeto via terminal**
@@ -252,6 +252,7 @@ Este projeto está sob licença **MIT** — livre para uso educacional e profiss
 
 🔗 **GitHub:** https://github.com/rafaelq80
 
-🔗 **LinkedIn:** https://www.linkedin.com/in/rafaelq80
+🔗 **LinkedIn:** https://www.linkedin.com/in/rafaelproinfo/
 
-Projeto desenvolvido para **aprendizado contínuo**, **demonstração técnica** e **portfólio profissional**.
+
+**Projeto desenvolvido para aprendizado contínuo**, **demonstração técnica** e **portfólio profissional**.

@@ -63,6 +63,11 @@ console.log("◎━━━━━━◎━━━━━━◎◎━━━━━━�
       leia.question("\nPressione Enter...");
 }
 console.log("O Banco Zed agradece, volte sempre! 👾");
+console.log("\n ___________________________________");
+console.log("\n Projeto criado por Gabriela Almeida");
+console.log("Github: https://github.com/Gaalmeida-dev");
+console.log("Linkedin: https://www.linkedin.com/in/gabriela-almeida-escalera-dos-santos-27022b3a0/");
+
 }
 
 main();
