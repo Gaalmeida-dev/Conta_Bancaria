@@ -1,10 +1,30 @@
 //Importações
+import { Conta } from "./src/model/Conta";
 import { Colors } from "./src/util/Colors";
 import leia from "readline-sync";
 
 export function main() {
     let opcao: number;
     const contas: any[] = [];
+
+    //Instanciar objetos da Classe Conta
+
+    const c1 = new Conta(1, 1234, "Gabriela", 1, 100000.00);
+
+    //console.log("O titular da conta é: ", c1.titular)
+    //console.log("O saldo da conta é: ", c1.saldo )
+
+    c1.visualizar();
+
+    console.log("Sacar 100,00: ", c1.sacar(100.00));
+    console.log("Sacar 200.000,00 : ", c1.sacar(2000000.00));
+    console.log("Sacar 0.00: ");
+
+    console.log("Depositar -10.00: "); 
+    c1.depositar(-10.00);
+    console.log("Depositar 500.000: ");
+    c1.depositar(+500000.00)
+
 
 //Estruturação
 
@@ -13,7 +33,7 @@ console.log(Colors.bg.black, Colors.fg.darkpurple,
             "◎━━━━━━◎━━━━━━◎◎━━━━━━◎━━━━━━◎◎━━━━━━◎━━━━━━◎");
 console.log("                 BANCO ZED                        ");
 console.log(`\n        👾 O banco da nova geração              `);
-console.log("         ━━━━━━━━━━━ ⟡ ━━━━━━━━━━━              \n");
+console.log("          ━━━━━━━━━━━ ⟡ ━━━━━━━━━━━              \n");
 console.log("1- Criar Conta                                    ");
 console.log("2- Listar todas as Contas                         ");
 console.log("3- Buscar Conta por numero                        ");
