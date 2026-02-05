@@ -77,6 +77,22 @@ console.log("◎━━━━━━◎━━━━━━◎◎━━━━━━�
                       console.log("Conta não encontrada!");
                   }
               break;
+
+            case 10:
+    console.log(Colors.fg.blue, "\nFALE CONOSCO - BANCO ZED 👾", Colors.reset);
+    console.log(" _________________________ ");
+    
+    const nome = leia.question("Seu nome: ");
+    const email = leia.question("Seu email: ");
+    const duvida = leia.question("Descreva sua duvida: ");
+    
+    console.log(" _________________________ ");
+    console.log(Colors.fg.green, "✅ Mensagem enviada com sucesso!", Colors.reset);
+    console.log("Um de nossos atendentes entrara em contato em breve.");
+    console.log("Banco Zed agradece! 👾");
+    console.log(" _________________________ \n");
+    break;
+
            default:
                   console.log(Colors.fg.red, `Opcao invalida!${Colors.reset}`);
       }

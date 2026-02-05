@@ -8,7 +8,8 @@ export class Conta {
     private _tipo: number;
     private _saldo: number;
 
-    constructor(numero: number, agencia: number, titular: string, tipo: number, saldo: number) {
+    // Construtor único, com saldo opcional
+    constructor(numero: number, agencia: number, titular: string, tipo: number, saldo: number = 0) {
         this._numero = numero;
         this._agencia = agencia;
         this._titular = titular;
@@ -34,7 +35,6 @@ export class Conta {
 
     // Método Sacar
     public sacar(valor: number): boolean {
-        // Validação de valor zero ou negativo
         if (valor <= 0) {
             console.log(Colors.fg.red, "\nOperação Inválida! O valor deve ser maior que zero.", Colors.reset);
             return false;
@@ -51,7 +51,6 @@ export class Conta {
 
     // Método Depositar
     public depositar(valor: number): void {
-        // Validação de valor zero ou negativo
         if (valor <= 0) {
             console.log(Colors.fg.red, "\nOperação Inválida! O valor do depósito deve ser maior que zero.", Colors.reset);
             return;
@@ -60,9 +59,10 @@ export class Conta {
         this._saldo += valor;
     }
 
+    // Método visualizar
     public visualizar(): void {
         let tipo: string;
-        
+
         switch (this._tipo) {
             case 1: tipo = "Conta Corrente"; break;
             case 2: tipo = "Conta Poupança"; break;
@@ -70,7 +70,7 @@ export class Conta {
         }
 
         console.log(" _________________________ ");
-        console.log("      DADOS DA CONTA       ");
+        console.log("       DADOS DA CONTA      ");
         console.log(" _________________________ ");
         console.log(` Número da conta:   ${this._numero}`);
         console.log(` Número da agência: ${this._agencia}`);
@@ -80,3 +80,4 @@ export class Conta {
         console.log(" _________________________ \n");
     }
 }
+
