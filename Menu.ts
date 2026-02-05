@@ -1,5 +1,6 @@
 //Importações
 import { Conta } from "./src/model/Conta";
+import { ContaCorrente } from "./src/model/ContaCorrente";
 import { Colors } from "./src/util/Colors";
 import leia from "readline-sync";
 
@@ -25,6 +26,16 @@ export function main() {
     console.log("Depositar 500.000: ");
     c1.depositar(+500000.00)
 
+//teste conta corrente
+const cc1 = new ContaCorrente(2, 5678, "Bianca", 1, 200000.00, 2000.00);
+
+cc1.visualizar();
+
+//teste sacar- conta corrente
+console.log("Sacar 1000,00: ", cc1.sacar(1000.00));
+console.log("Sacar 2000.00 :", cc1.sacar(200000.00));
+cc1.depositar(500.00);
+cc1.visualizar();
 
 //Estruturação
 
