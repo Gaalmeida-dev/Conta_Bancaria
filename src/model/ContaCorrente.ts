@@ -2,6 +2,12 @@ import { Colors } from "../util/Colors";
 import { Conta } from "./Conta";
 
 export class ContaCorrente extends Conta{
+  getLimite() {
+    throw new Error('Method not implemented.');
+  }
+  setLimite(arg0: number) {
+    throw new Error('Method not implemented.');
+  }
     //Atributos específicos de conta corrente
     private _limite: number;
 

@@ -1,6 +1,12 @@
 import { Conta } from './Conta';
 
 export class ContaPoupanca extends Conta {
+  getDataAniversario() {
+    throw new Error('Method not implemented.');
+  }
+  setDataAniversario(novaDataAniv: Date) {
+    throw new Error('Method not implemented.');
+  }
   private taxaJuros: number = 0.5;
   private aniversario: Date; 
 
