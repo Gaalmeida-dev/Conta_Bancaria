@@ -1,19 +1,21 @@
-//importando
-import {ContaCorrente} from './src/model/ContaCorrente';
-import {Conta} from './src/model/Conta';
-import leia from 'readline-sync';
-import { ContaPoupanca } from './src/model/ContaPoupança';
-import { Colors } from './src/util/Colors';
-import { ContaController } from './src/model/repository/ContaController';
+import { ContaController } from "./repository/ContaController";
+import { Conta } from "./src/model/Conta";
+import { ContaCorrente } from "./src/model/ContaCorrente";
+import { ContaPoupanca } from "./src/model/ContaPoupança";
+import { Colors } from "./src/util/Colors";
+import { Input } from "./src/util/Input";
 
+const leia = Input;
 
-//Criar o Objeto Global da Classe ContaController
+// Cria um Objeto Global da Classe ContaController
 const contas = new ContaController();
 
+// Cria um array contendo os tipos de conta
+const tipoContas = ["Conta Corrente", "Conta Poupanca"];
 
-export function main(){
-  let opcao: number;
+export function main() {
 
+    let opcao: number;
 
   //Estruturação visual
   while (true) {
@@ -22,7 +24,7 @@ export function main(){
       Colors.fg.darkpurple,
                              '◎━━━━━━◎━━━━━━◎◎━━━━━━◎━━━━━━◎◎━━━━━━◎━━━━━━◎       ');
     console.log('                              BANCO ZED                             ');
-    console.log(`\n                   👾 O banco da nova geracao                    `);
+    console.log(`\n                   👾 O banco da nova geração                    `);
     console.log('                          ━━━━━━━━ ⟡ ━━━━━━━━                    \n');
     console.log('1- Criar Conta                                                     ');
     console.log('2- Listar todas as Contas                                          ');
@@ -37,9 +39,7 @@ export function main(){
     console.log('0- Sair                                                          \n');
     console.log('◎━━━━━━◎━━━━━━◎◎━━━━━━◎━━━━━━◎◎━━━━━━◎━━━━━━◎\n', Colors.reset);
 
-
     opcao = leia.questionInt('Escolha uma opcao: ');
-
 
     //Laços e loops
     if (opcao === 0) break;
@@ -53,7 +53,6 @@ export function main(){
   console.log('Linkedin: https://www.linkedin.com/in/gabriela-almeida-escalera-dos-santos-27022b3a0/');
 }
 
-
 //Estruturação funções bancárias
 function executaOpcao(opcao: number): void {
   const mapa: { [key: number]: (() => void) | undefined } = {
@@ -64,11 +63,10 @@ function executaOpcao(opcao: number): void {
     5: apagarConta,
     6: sacar,
     7: depositar,
+    8: transferir,
     9: buscarTitular,
     10: atendimento,
   };
-
-
   const funcao = mapa[opcao];
   if (funcao) {
     funcao();
@@ -77,7 +75,6 @@ function executaOpcao(opcao: number): void {
   }
 }
 
-
 function criarConta(): void {
   const tipo = leia.questionInt(
      'Tipo de conta (1 - Conta Inss, 2 - Conta Corrente, 3 - Conta Poupanca): '
@@ -85,31 +82,27 @@ function criarConta(): void {
     const titular = leia.question('Nome do Titular: ');
     const saldo = parseFloat(leia.question('Saldo inicial: '));
 
-
     let novaConta: Conta;
 
-
     if (tipo === 1) {
-      const numero = contas.listarTodas().length + 1;
+      const numero = contas.gerarNumero();
       novaConta = new Conta(numero, 1001, titular, 1, saldo);
     } else if (tipo === 2) {
       const limite = parseFloat(leia.question('Limite da Conta Corrente: '));
-      const numero = contas.listarTodas().length + 1;
+      const numero = contas.gerarNumero();
       novaConta = new ContaCorrente(numero, 1001, titular, 2, saldo, limite);
     } else if (tipo === 3) {
-      const numero = contas.listarTodas().length + 1;
+      const numero = contas.gerarNumero();
       const diaAniv = leia.questionInt('Dia do aniversario (1-31): ');
       const mesAniv = leia.questionInt('Mes do aniversário (1-12): ');
       const anoAniv = leia.questionInt('Ano de nascimento: ');
       const dataAniv = new Date(anoAniv, mesAniv - 1, diaAniv);
-
 
       novaConta = new ContaPoupanca(numero, 1001, titular, 3, saldo, dataAniv);
     } else {
       console.log(Colors.fg.red, 'Tipo de conta inválido!', Colors.reset);
       return;
     }
-
 
     contas.cadastrar(novaConta);
     console.log(
@@ -119,79 +112,36 @@ function criarConta(): void {
     );
 }
 
-
 function listarContas(): void {
-  const lista = contas.listarTodas();
-
-
-  if (lista.length === 0) {
-    console.log('Nao achamos nenhuma conta no momento.')
-  } else {
-    lista.forEach((c) => {
-      console.log(`#${c.numero}: ${c.titular} - Saldo: R$${c.saldo}`);
-    });
-  }
+  contas.listarTodas();
 }
-
 
 function buscarNum(): void {
   const numBuscar = leia.questionInt('Numero da conta: ');
-  const conta = contas.procurarPorNumero(numBuscar);
-
-
-  if (conta) {
-    conta.visualizar();
-  } else {
-    console.log('Conta nao encontrada!');
-  }
+  contas.procurarPorNumero(numBuscar);
 }
-
 
 function buscarTitular(): void {
   const nomeTitular = leia.question('Nome do titular: ');
-  const contasTitular = contas.buscarPorTitular(nomeTitular);
-
-
-  if (contasTitular.length === 0) {
-    console.log('Nenhuma conta encontrada para esse titular.');
-  } else {
-    contasTitular.forEach((c) => {
-      console.log(`#${c.numero}: ${c.titular} - Saldo: R$${c.saldo}`);
-    });
-  }
+  contas.procurarPorTitular(nomeTitular);
 }
-
 
 function sacar(): void {
   const numSacar = leia.questionInt('Numero da conta: ');
-  const conta = contas.procurarPorNumero(numSacar);
-
+  const conta = contas.buscarNoArray(numSacar);
 
   if (!conta) {
     console.log('Conta nao encontrada!');
     return;
   }
 
-
   const valorSacar = parseFloat(leia.question('Valor a sacar: '));
-  const resultadoSacar = conta.sacar(valorSacar);
-
-
-  if (resultadoSacar) {
-    console.log(
-      Colors.fg.green,
-      `Saque de R$${valorSacar.toFixed(2)} realizado com sucesso!`,
-      Colors.reset
-    );
-  } else {
-    console.log(Colors.fg.red, 'Saldo insuficiente ou valor invalido.', Colors.reset);
-  }
+  contas.sacar(numSacar, valorSacar);
 }
-
 
 function atualizarConta(): void {
   const numAtualizar = leia.questionInt('Numero da conta para atualizar: ');
-  const conta = contas.procurarPorNumero(numAtualizar);
+  const conta = contas.buscarNoArray(numAtualizar);
   if (!conta) {
     console.log('Conta nao encontrada!');
     return;
@@ -201,7 +151,6 @@ function atualizarConta(): void {
   console.log('\nAtualizar dados:');
   const novoTitular = leia.question(`Nome do Titular (${conta.titular}): `) || conta.titular;
 
-
   let novoSaldo = conta.saldo;
   const inputSaldo = leia.question(
     `Saldo atual (${conta.saldo.toFixed(2)}): `
@@ -210,14 +159,11 @@ function atualizarConta(): void {
     novoSaldo = parseFloat(inputSaldo);
   }
 
-
   // Atualizar Comum
   conta.titular = novoTitular;
   conta.saldo = novoSaldo;
 
-
   contas.atualizar(conta);
-
 
   console.log(
     Colors.fg.green,
@@ -226,21 +172,17 @@ function atualizarConta(): void {
   );
 }
 
-
 function depositar(): void {
   const numDepositar = leia.questionInt('Numero da conta: ');
-  const conta = contas.procurarPorNumero(numDepositar);
-
+  const conta = contas.buscarNoArray(numDepositar);
 
   if (!conta) {
     console.log('Conta nao encontrada!');
     return;
   }
 
-
   const valorDepositar = parseFloat(leia.question('Valor a depositar: '));
-  conta.depositar(valorDepositar);
-
+  contas.depositar(numDepositar, valorDepositar);
 
   console.log(
     Colors.fg.green,
@@ -249,33 +191,26 @@ function depositar(): void {
   );
 }
 
-
 function apagarConta(): void {
   const numApagar = leia.questionInt('Numero da conta para excluir: ');
-  const conta = contas.procurarPorNumero(numApagar);
-
+  const conta = contas.buscarNoArray(numApagar);
 
   if (!conta) {
     console.log('Conta nao encontrada!');
     return;
   }
 
-
   console.log('Conta que será excluída:');
   conta.visualizar();
 
-
   const confirmacao = leia.question('\nConfirmar exclusao? (s/n): ').toLowerCase();
-
 
   if (confirmacao !== 's' && confirmacao !== 'sim') {
     console.log(Colors.fg.yellow, 'Exclusao cancelada.', Colors.reset);
     return;
   }
 
-
   contas.deletar(numApagar);
-
 
   console.log(
     Colors.fg.green,
@@ -284,6 +219,31 @@ function apagarConta(): void {
   );
 }
 
+function transferir(): void {
+  console.log('Numero da Conta de Origem: ');
+  const numeroOrigem = leia.questionInt('');
+
+  console.log('Numero da Conta de Destino: ');
+  const numeroDestino = leia.questionInt('');
+
+  const contaOrigem = contas.buscarNoArray(numeroOrigem);
+  const contaDestino = contas.buscarNoArray(numeroDestino);
+
+  if (!contaOrigem) {
+    console.log(Colors.fg.red, 'Conta de origem nao encontrada!', Colors.reset);
+    return;
+  }
+
+  if (!contaDestino) {
+    console.log(Colors.fg.red, 'Conta de destino nao encontrada!', Colors.reset);
+    return;
+  }
+
+  console.log('Valor a transferir: ');
+  const valor = parseFloat(leia.question(''));
+
+  contas.transferir(numeroOrigem, numeroDestino, valor);
+}
 
 function atendimento(): void {
   console.log(
@@ -305,6 +265,4 @@ function atendimento(): void {
   console.log('Banco Zed agradece! 👾');
   console.log(' _________________________ \n');
 }
-
-
 main();
